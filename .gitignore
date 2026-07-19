@@ -12,3 +12,4 @@
 # Output plots
 tools/benchmark/metrics/plots
 tools/benchmark/metrics/results.csv
+build-static/

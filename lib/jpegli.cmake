@@ -24,12 +24,21 @@ elseif(JPEGLI_LIBJPEG_LIBRARY_SOVERSION STREQUAL "8")
   set(JPEG_LIB_VERSION 80)
 endif()
 
+set(JPEGLI_LIBJPEG_TURBO_SOURCE_DIR
+    "${PROJECT_SOURCE_DIR}/third_party/libjpeg-turbo")
+# Newer libjpeg-turbo versions keep public headers and jconfig.in under src/.
+if(EXISTS "${JPEGLI_LIBJPEG_TURBO_SOURCE_DIR}/src/jconfig.h.in")
+  string(APPEND JPEGLI_LIBJPEG_TURBO_SOURCE_DIR "/src")
+endif()
 configure_file(
-  ../third_party/libjpeg-turbo/jconfig.h.in include/jpegli/jconfig.h)
+  "${JPEGLI_LIBJPEG_TURBO_SOURCE_DIR}/jconfig.h.in"
+  include/jpegli/jconfig.h)
 configure_file(
-  ../third_party/libjpeg-turbo/jpeglib.h include/jpegli/jpeglib.h COPYONLY)
+  "${JPEGLI_LIBJPEG_TURBO_SOURCE_DIR}/jpeglib.h"
+  include/jpegli/jpeglib.h COPYONLY)
 configure_file(
-  ../third_party/libjpeg-turbo/jmorecfg.h include/jpegli/jmorecfg.h COPYONLY)
+  "${JPEGLI_LIBJPEG_TURBO_SOURCE_DIR}/jmorecfg.h"
+  include/jpegli/jmorecfg.h COPYONLY)
 
 add_library(jpegli-static STATIC EXCLUDE_FROM_ALL "${JPEGLI_INTERNAL_JPEGLI_SOURCES}")
 target_compile_options(jpegli-static PRIVATE "${JPEGLI_INTERNAL_FLAGS}")
